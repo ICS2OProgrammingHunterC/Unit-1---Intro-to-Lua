@@ -50,7 +50,7 @@ areaOfRectangle = widthOfRectangle * heightOfRectangle
 
 -- Write the area on the screen.
 areaText = display.newText("The Area of this Rectangle with a width of \n" ..
-	widthOfRectangle .. "and a height of" .. heightOfRectangle .." is " .. 
+	widthOfRectangle .. "and a height of " .. heightOfRectangle .." is " .. 
 	areaOfRectangle .. " Pixels².", 0, 0, Arial, textSize)
 
 -- Anchor the text and set it's (x,y) position
@@ -72,3 +72,20 @@ myCircle.strokeWidth = 20
 myCircle:setStrokeColor(0/255, 255/255, 255/255)
 
 myCircle:setFillColor(255/255, 128/255, 0/255)
+
+-- calculate the area
+areaOfCirc = RadiusOfCirc*RadiusOfCirc*PI
+
+--Write the area on the screen
+AreaCircText = display.newText("The Area of the Circle with\n" ..
+ "a radius of" .. RadiusOfCirc .. " is \n"
+  .. areaOfCirc .. " Pixels²", 0, 0, Arial, textSize)
+
+--Anchpr the text
+AreaCircText.anchorX = 0
+AreaCircText.anchorY = 0
+AreaCircText.x = 20
+AreaCircText.y = 400
+
+-- set the color of the text
+AreaCircText:setTextColor(0/255, 255/255, 255/255)
