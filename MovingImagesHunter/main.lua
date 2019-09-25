@@ -31,7 +31,6 @@ octopus.y = 0
 local function MoveShipDown(event)
 	octopus.y = octopus.y + scrollSpeed
 	octopus.alpha = octopus.alpha + 0.01
-	octopus:scale(-45,45)
 end
 
 Runtime:addEventListener("enterFrame", MoveShipDown)
