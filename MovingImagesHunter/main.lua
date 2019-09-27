@@ -7,7 +7,7 @@
 display.setStatusBar(display.HiddenStatusBar)
 
 -- global variables
-scrollSpeed = 5
+scrollSpeed = 10
 
 --Background image with width and height
 local backgroundImage = display.newImageRect("Images/Galaxy.png", 2048, 1536)
