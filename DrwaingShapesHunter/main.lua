@@ -28,3 +28,8 @@ textObject = display.newText("Pentagon", 256, display.contentHeight/2, 'Comic Sa
 
 -- sets the color of the text
 textObject:setTextColor(51/255, 255/255, 51/255)
+
+
+
+
+
