@@ -74,9 +74,7 @@ local areaText
 
 areaoftriangle = trianglebase * heighttriangle / 2
 
-areaText = display.newText("The area of this Triangle with \n" ..
-	"with a base of" .. trianglebase .. " and a height of\n"
-	.. heighttriangle.. " is " .. areaoftriangle .. " pixels2")
+
 
 
 
