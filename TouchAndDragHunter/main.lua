@@ -39,8 +39,34 @@ local function AppleLogoListener(touch)
     end
 
 	if ( (touch.phase == "moved") and (alreadyTouchedAppleLogo == true) ) then
-		appleLogo.x = touched.x
-		appleLogo.y = touched.y
+		appleLogo.x = touch.x
+		appleLogo.y = touch.y
+	end
+
+	if (touch.phase == "ended") then
+		alreadyTouchedAppleLogo = false
+		alreadyTouchedgirl2 = false
+	end
+end
+
+appleLogo:addEventListener("touch", AppleLogoListener )
+--function: girl2listener
+-- Input: touch listener
+--Output: None
+--When girl 2 is touched it will move 
+-- add the respective listeners to each object
+
+
+local function girl2listener(touch)
+	if (touch.phase == "began") then
+		if (alreadyTouchedAppleLogo == false) then
+			alreadyTouchedgirl2 = true
+		end
+    end
+
+	if ( (touch.phase == "moved") and (alreadyTouchedgirl2 == true) ) then
+		girl2.x = touch.x
+		girl2.y = touch.y
 	end
 
 	if (touch.phase == "ended") then
@@ -49,6 +75,7 @@ local function AppleLogoListener(touch)
 	end
 end
 
+girl2:addEventListener("touch", girl2listener)
 
--- add the respective listeners to each object
-appleLogo:addEventListener("touch", AppleLogoListener )
+
+
