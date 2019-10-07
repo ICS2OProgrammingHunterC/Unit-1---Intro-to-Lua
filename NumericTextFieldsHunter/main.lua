@@ -23,6 +23,7 @@ local randomNumber1
 local randomNumber2
 local userAnswer
 local correctAnswer
+local incorrectAnswer
 local points = 0
 local pointsText
 
@@ -57,18 +58,22 @@ local function NumericFieldListener( event )
 		userAnswer = tonumber(event.target.text)
 		-- if the users answer and the correct answer are the same:
 		if (userAnswer == correctAnswer) then
+			--give a point if user gets the correct answer
+			points = points + 1
+			-- update it in the display object
+			pointsText.text = "Points = " .. points
+			-- it tells the user that the answer is correct
 			correctObject.isVisible = true
 			timer.performWithDelay(2000, HideCorrect)
+			
+		-- anything after the else means the answer is wrong
+		else
+
 		end
 	end	
 end
 
-if (userAnswer == corectAnswer) then
-	--give a point if user gets the correct answer
-	points = points + 1
-	-- update it in the display object
-	pointsText.text = "Points = " .. points
-end
+
 -----------------------------------------------------------------------------------
 --OBJECT CREATION
 -------------------------------------------------------------------------------------------
@@ -81,6 +86,9 @@ questionObject:setTextColor(0,0,1)
 correctObject = display.newText( "Correct!", display.contentWidth/2, display.contentHeight*2/3, nil, 50)
 correctObject:setTextColor(0,0,1)
 correctObject.isVisible = false
+
+-- create the incorrect object
+
 
 --create numeric field
 numericField = native.newTextField( display.contentWidth/2, display.contentHeight/2, 150, 80)
