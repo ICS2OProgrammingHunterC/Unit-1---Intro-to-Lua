@@ -77,8 +77,13 @@ local function NumericFieldListener( event )
 			incorrectObject.isVisible = true
 			timer.performWithDelay(1500, HideCorrect)
 		end
+		if (points == 5) then
+			display.newText("You win", display.contentWidth/2, display.contentHeight*2/3, nil, 50)
+		end
 	end	
 end
+
+
 
 
 -----------------------------------------------------------------------------------
