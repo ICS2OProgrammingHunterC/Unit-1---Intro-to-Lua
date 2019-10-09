@@ -8,8 +8,9 @@
 --hide the status bar
 display.setStatusBar(display.HiddenStatusBar)
 
--- set the backround color
-display.setDefault("background", 1,0,1)
+-- set the backround Images
+local backgroundImage = display.newImageRect("Images/Galaxy.png", 2048, 1536)
+
 
 -------------------------------------------------------------------------------------
 --LOCAL VARIABLES
@@ -28,6 +29,17 @@ local points = 0
 local pointsText
 local lives = 3
 local livesText
+----------------------------------------------------------------------------------
+-- SOUNDS
+---------------------------------------------------------------------------------------
+
+-- correct sound
+local correctSound = audio.loadSound( "Sounds/Correct Answer Sound.mp3")
+local correctSoundChannel
+--incorrect sound
+local incorrectSound = audio.loadSound( "Sounds/Wrong Buzzer Sound.mp3")
+local incorrectSoundChannel
+
 ---------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -------------------------------------------------------------------------------------------
@@ -45,6 +57,11 @@ end
 
 local function HideCorrect()
 	correctObject.isVisible = false
+	AskQuestion()
+end
+
+local function HideIncorrect()
+	incorrectObject.isVisible = false
 	AskQuestion()
 end
 
@@ -66,7 +83,14 @@ local function NumericFieldListener( event )
 			-- it tells the user that the answer is correct
 			correctObject.isVisible = true
 			timer.performWithDelay(1500, HideCorrect)
+			--play correct sound
+			correctSoundChannel = audio.play(correctSound)
+			-- display the check mark
+
+			-- clear the text field
+			event.target.text = ""
 			
+
 		-- anything after the else means the answer is wrong
 		else 
 			-- Take away 1 life
@@ -75,10 +99,15 @@ local function NumericFieldListener( event )
 			livesText.text = "Lives = " .. lives
 			--it tells the user that the answer is incorrect
 			incorrectObject.isVisible = true
-			timer.performWithDelay(1500, HideCorrect)
+			timer.performWithDelay(1500, HideIncorrect)
+			--play the incorrect sound
+			incorrectSoundChannel = audio.play(incorrectSound)
+			--clear the text field
+			event.target.text = ""
+
 		end
 		if (points == 5) then
-			display.newText("You win", display.contentWidth/2, display.contentHeight*2/3, nil, 50)
+
 		end
 	end	
 end
@@ -92,16 +121,16 @@ end
 
 -- displays a question and sets the color
 questionObject = display.newText( "", display.contentWidth/3, display.contentHeight/2, nil, 50 )
-questionObject:setTextColor(0,0,1)
+questionObject:setTextColor(1,0,1)
 
 -- create the correct text object and make it invisible
 correctObject = display.newText( "Correct!", display.contentWidth/2, display.contentHeight*2/3, nil, 50)
-correctObject:setTextColor(0,0,1)
+correctObject:setTextColor(1,0,1)
 correctObject.isVisible = false
 
 -- create the incorrect object
 incorrectObject = display.newText( "Incorrect, the correct answer is" , display.contentWidth/2, display.contentHeight*2/3, nil, 50)
-incorrectObject:setTextColor(0,0,1)
+incorrectObject:setTextColor(1,0,1)
 incorrectObject.isVisible = false
 
 
@@ -114,11 +143,23 @@ numericField:addEventListener( "userInput", NumericFieldListener)
 
 -- display the amount of points as a text object
 pointsText = display.newText("Points = " .. points, display.contentWidth*1/4, display.contentHeight*1/8, nil, 50)
-pointsText:setTextColor(0,0,1)
+pointsText:setTextColor(1,0,1)
 
 -- display the amount of lives left as a text object
 livesText = display.newText("Lives = " .. lives, display.contentWidth*3/4, display.contentHeight*1/8, nil, 50)
-livesText:setTextColor(0,0,1)
+livesText:setTextColor(1,0,1)
+
+-- create the checkmark for when the user gets the answer correct
+local checkmark = display.newImageRect("Images/checkmark.png", 150, 150)
+checkmark.isVisible = false
+
+-- create the red x for when the user get's the answer incorrect
+local redX = display.newImageRect("Images/red_x.png", 150, 150)
+redX.isVisible = false
+
+--display the you win Image
+
+
 
 --------------------------------------------------------------------------------------
 -- FUNCTION CALLS
