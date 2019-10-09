@@ -23,18 +23,19 @@ local randomNumber1
 local randomNumber2
 local userAnswer
 local correctAnswer
-local incorrectAnswer
+local incorrectObject
 local points = 0
 local pointsText
-
+local lives = 3
+local livesText
 ---------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -------------------------------------------------------------------------------------------
 
 local function AskQuestion( ... )
 	-- generate 2 random numbers between a max. and a min. numbers
-	randomNumber1 = math.random(0, 20)
-	randomNumber2 = math.random(0, 20)
+	randomNumber1 = math.random(1, 20)
+	randomNumber2 = math.random(1, 20)
 
 	correctAnswer = randomNumber1 + randomNumber2
 
@@ -64,11 +65,17 @@ local function NumericFieldListener( event )
 			pointsText.text = "Points = " .. points
 			-- it tells the user that the answer is correct
 			correctObject.isVisible = true
-			timer.performWithDelay(2000, HideCorrect)
+			timer.performWithDelay(1500, HideCorrect)
 			
 		-- anything after the else means the answer is wrong
-		else
-
+		else 
+			-- Take away 1 life
+			lives = lives - 1
+			-- update it in the display object
+			livesText.text = "Lives = " .. lives
+			--it tells the user that the answer is incorrect
+			incorrectObject.isVisible = true
+			timer.performWithDelay(1500, HideCorrect)
 		end
 	end	
 end
@@ -88,6 +95,9 @@ correctObject:setTextColor(0,0,1)
 correctObject.isVisible = false
 
 -- create the incorrect object
+incorrectObject = display.newText( "Incorrect, the correct answer is" , display.contentWidth/2, display.contentHeight*2/3, nil, 50)
+incorrectObject:setTextColor(0,0,1)
+incorrectObject.isVisible = false
 
 
 --create numeric field
@@ -98,8 +108,12 @@ numericField.inputType = "number"
 numericField:addEventListener( "userInput", NumericFieldListener)
 
 -- display the amount of points as a text object
-pointsText = display.newText("Points = " .. points, display.contentWidth/3, display.contentHeight/3, nil, 50)
+pointsText = display.newText("Points = " .. points, display.contentWidth*1/4, display.contentHeight*1/8, nil, 50)
+pointsText:setTextColor(0,0,1)
 
+-- display the amount of lives left as a text object
+livesText = display.newText("Lives = " .. lives, display.contentWidth*3/4, display.contentHeight*1/8, nil, 50)
+livesText:setTextColor(0,0,1)
 
 --------------------------------------------------------------------------------------
 -- FUNCTION CALLS
