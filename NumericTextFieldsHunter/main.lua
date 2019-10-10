@@ -29,6 +29,7 @@ local points = 0
 local pointsText
 local lives = 3
 local livesText
+local Youwin
 ----------------------------------------------------------------------------------
 -- SOUNDS
 ---------------------------------------------------------------------------------------
@@ -104,11 +105,9 @@ local function NumericFieldListener( event )
 			incorrectSoundChannel = audio.play(incorrectSound)
 			--clear the text field
 			event.target.text = ""
-
 		end
-		if (points == 5) then
-			
-
+		if (lives == 0) then
+			display.newText("Game Over", 1000, 700)
 		end
 	end	
 end
@@ -158,7 +157,6 @@ checkmark.isVisible = false
 local redX = display.newImageRect("Images/red_x.png", 150, 150)
 redX.isVisible = false
 
---display the you win Image
 
 
 
