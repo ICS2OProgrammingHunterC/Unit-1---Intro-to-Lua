@@ -1,22 +1,15 @@
--- Title: NumericTextFields
+-- Title: Math Fun
 -- Name: Hunter Connolly
 -- Course: ICS2O
 -- This program dipslays a math question and asks the user to answer in a numeric
--- textfield. terminal
----------------------------------------------------------------------------------------
-
---hide the status bar
+-- textfield terminal
+--------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
-
--- set the backround Images
-local backgroundImage = display.newImageRect("Images/Galaxy.png", 2048, 1536)
 
 
 -------------------------------------------------------------------------------------
---LOCAL VARIABLES
-------------------------------------------------------------------------------------
-
---create local variables
+-- LOCAL VARIABLES
+---------------------------------------------------------------------------------------
 local questionObject
 local correctObject
 local numericField
@@ -29,7 +22,8 @@ local points = 0
 local pointsText
 local lives = 3
 local livesText
-local Youwin
+local divQuestion
+
 ----------------------------------------------------------------------------------
 -- SOUNDS
 ---------------------------------------------------------------------------------------
@@ -42,19 +36,52 @@ local incorrectSound = audio.loadSound( "Sounds/Wrong Buzzer Sound.mp3")
 local incorrectSoundChannel
 
 ---------------------------------------------------------------------------------
--- LOCAL FUNCTIONS
--------------------------------------------------------------------------------------------
+--LOCAL FUNCTIONS
+-----------------------------------------------------------------------------------
 
-local function AskQuestion( ... )
-	-- generate 2 random numbers between a max. and a min. numbers
-	randomNumber1 = math.random(1, 20)
-	randomNumber2 = math.random(1, 20)
+local function AskQuestion()
+	--generate a random number between 1 and 4
+	randomOperator = math.random(1,4)
 
-	correctAnswer = randomNumber1 + randomNumber2
+	--generate 4 random numbers
+	randomNumber1 = math.random(1,10)
+	randomNumber2 = math.random(1,10)
+	randomNumber3 = math.random(2,12)
+	randomNumber4 = math.random(2,12)
 
-	-- create the question in a text object
-	questionObject.text = randomNumber1 .. " + " .. randomNumber2 .. " = "
+	--if the random operator is 1 then it is addition
+	if (randomOperator == 1) then
+
+		--calculate the correct answer 
+		correctAnswer = randomNumber1 + randomNumber2 
+
+		--create the question in text object
+		questionObject.text = randomNumber1 .. " + " .. randomNumber2 .. " = "
+	elseif (randomOperator == 2) then
+		--calclate the correct answer
+		correctAnswer = randomNumber1 - randomNumber2
+
+		-- create the question in text object
+		questionObject.text = randomNumber1 .. " - " .. randomNumber2 .. " = "
+	end
+	if (randomOperator == 3) then
+		--calculate the correct answer
+		correctAnswer = randomNumber1 * randomNumber2
+
+		-- create the question in text object
+		questionObject.text = randomNumber1 .. " x " .. randomNumber2 .. " = "
+	elseif (randomOperator == 4) then
+		-- find the answer
+		divQuestion = randomNumber3 * randomNumber4
+		correctAnswer = divQuestion / randomNumber3 
+
+		-- create the question object
+		questionObject.text = divQuestion .. " ÷ " .. randomNumber3 .. " = "
+	end
 end
+
+
+
 
 local function HideCorrect()
 	correctObject.isVisible = false
@@ -107,12 +134,10 @@ local function NumericFieldListener( event )
 			event.target.text = ""
 		end
 		if (lives == 0) then
-			display.newText("Game Over", 1000, 700)
+			
 		end
 	end	
 end
-
-
 
 
 -----------------------------------------------------------------------------------
@@ -129,7 +154,7 @@ correctObject:setTextColor(1,0,1)
 correctObject.isVisible = false
 
 -- create the incorrect object
-incorrectObject = display.newText( "Incorrect, the correct answer is" , display.contentWidth/2, display.contentHeight*2/3, nil, 50)
+incorrectObject = display.newText( "Incorrect, the correct answer is" .. correctAnswer , display.contentWidth/2, display.contentHeight*2/3, nil, 50)
 incorrectObject:setTextColor(1,0,1)
 incorrectObject.isVisible = false
 
@@ -150,15 +175,12 @@ livesText = display.newText("Lives = " .. lives, display.contentWidth*3/4, displ
 livesText:setTextColor(1,0,1)
 
 -- create the checkmark for when the user gets the answer correct
-local checkmark = display.newImageRect("Images/checkmark.png", 150, 150)
+checkmark = display.newImageRect("Images/checkmark.png", 150, 150)
 checkmark.isVisible = false
 
 -- create the red x for when the user get's the answer incorrect
 redX = display.newImageRect("Images/red_x.png", 150, 150)
 redX.isVisible = false
-
-
-
 
 --------------------------------------------------------------------------------------
 -- FUNCTION CALLS
@@ -166,6 +188,3 @@ redX.isVisible = false
 
 -- call the function to ask the question
 AskQuestion()
-
-
-
