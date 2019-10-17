@@ -39,6 +39,7 @@ local function BlueButtonListener(touch)
 		blueButton.isVisible = false
 		redButton.isVisible = true
 		textObject.isVisible = true
+		clickSoundChannel = audio.play(clickSound)
 	end
 	if(touch.phase == "ended") then
 		blueButton.isVisible = true
@@ -52,6 +53,7 @@ local function RedButtonListener(touch)
 		redButton.isVisible = false
 		blueButton.isVisible = true
 		textObject.isVisible = true
+		clickSoundChannel = audio.play(clickSound)
 	end
 	if(touch.phase == "ended") then
 		redButton.isVisible = true
@@ -63,3 +65,11 @@ end
 -- add the respective listeners to each object
 blueButton:addEventListener("touch", BlueButtonListener)
 redButton:addEventListener("touch", RedButtonListener)
+
+-------------------------------------------------------------------------------------------------------------
+--SOUNDS
+---------------------------------------------------------------------------------------------------------------------
+local clickSound = audio.loadSound("Sounds/mouseClick.mp3")
+local clickSoundChannel
+
+

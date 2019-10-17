@@ -50,5 +50,7 @@ end
 Runtime:addEventListener("enterFrame", MoveShip)
 
 -----------------------------------------------------------------------------------------
-
-
+--SOUNDS
+------------------------------------------------------------------------------------------
+local elevatorMusic = audio.loadSound("Sounds/Elevator.mp3")
+audio.play(elevatorMusic, {loops = -1})
