@@ -104,21 +104,25 @@ end
 local function HideCorrect()
 	correctObject.isVisible = false
 	AskQuestion()
+	StartTimer()
 end
 
 local function HideIncorrect()
 	incorrectObject.isVisible = false
 	AskQuestion()
+	StartTimer()
 end
 
 local function HideRedX()
 	redX.isVisible = false
 	AskQuestion()
+	StartTimer()
 end
 
 local function HideCheckmark()
 	checkmark.isVisible = false
 	AskQuestion()
+	StartTimer()
 end
 
 local function NumericFieldListener( event )
@@ -259,9 +263,14 @@ heart4 = display.newImageRect("Images/heart.png", 100, 100)
 heart4.x = display.contentWidth * 4 / 8
 heart4.y = display.contentHeight * 1 / 7
 
+-- add the clock text
+clockText = display.newText("", display.contentWidth*1/4, display.contentHeight*1/4, nil, 50)
+clockText.isVisible = false
+
 --------------------------------------------------------------------------------------
 -- FUNCTION CALLS
 --------------------------------------------------------------------------------------
 
 -- call the function to ask the question
 AskQuestion()
+StartTimer()
