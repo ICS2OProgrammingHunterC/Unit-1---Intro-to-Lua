@@ -1,8 +1,8 @@
--- Title: Math Fun
+-- Title: Math Fun with lives and timers
 -- Name: Hunter Connolly
 -- Course: ICS2O
--- This program dipslays a math question and asks the user to answer in a numeric
--- textfield terminal
+-- This program dipslays a math question and asks the user to answer in a numeric and they have a certain amount of time to answer the question
+
 --------------------------------------------------------------------------------------
 display.setStatusBar(display.HiddenStatusBar)
 
@@ -94,7 +94,7 @@ local function AskQuestion()
 		correctAnswer = divQuestion / randomNumber3 
 
 		-- create the question object
-		questionObject.text = divQuestion .. " ÷ " .. randomNumber3 .. " = "
+		questionObject.text = divQuestion .. " ÷ " .. randomNumber3 .. " =  "
 	end
 end
 
@@ -104,25 +104,23 @@ end
 local function HideCorrect()
 	correctObject.isVisible = false
 	AskQuestion()
-	StartTimer()
+	
 end
 
 local function HideIncorrect()
 	incorrectObject.isVisible = false
 	AskQuestion()
-	StartTimer()
+
 end
 
 local function HideRedX()
 	redX.isVisible = false
 	AskQuestion()
-	StartTimer()
 end
 
 local function HideCheckmark()
 	checkmark.isVisible = false
 	AskQuestion()
-	StartTimer()
 end
 
 local function NumericFieldListener( event )
@@ -134,6 +132,10 @@ local function NumericFieldListener( event )
 	elseif event.phase == "submitted" then
 		-- when the answer is submitted ( enter key is pressed) set user input to users answer
 		userAnswer = tonumber(event.target.text)
+
+		--reset the timer
+		secondsLeft = totalSeconds
+
 		-- if the users answer and the correct answer are the same:
 		if (userAnswer == correctAnswer) then
 			--give a point if user gets the correct answer
@@ -145,6 +147,7 @@ local function NumericFieldListener( event )
 			timer.performWithDelay(1500, HideCorrect)
 			--play correct sound
 			correctSoundChannel = audio.play(correctSound)
+
 			-- display the check mark
 
 			-- clear the text field
@@ -154,6 +157,10 @@ local function NumericFieldListener( event )
 		else 
 			-- Take away 1 life
 			lives = lives - 1
+
+			-- reset the timer
+			secondsLeft = totalSeconds
+
 			--it tells the user that the answer is incorrect
 			timer.performWithDelay(1500, HideIncorrect)
 			--play the incorrect sound
@@ -165,6 +172,17 @@ local function NumericFieldListener( event )
 			timer.performWithDelay(1500, HideRedX)
 			incorrectObject = display.newText( "Incorrect, the correct answer is " .. correctAnswer  , display.contentWidth/2, display.contentHeight*2/3, nil, 50)
 			incorrectObject:setTextColor(1,0,1)
+			
+			if (lives == 3) then
+				heart4.isVisible = false
+
+			elseif (lives == 2) then 
+				heart3.isVisible = false
+			elseif (lives == 1) then
+				heart2.isVisible = false
+			elseif (lives == 0) then
+				heart1.isVisble = false
+			end
 			
 
 		end
@@ -192,16 +210,20 @@ local function UpdateTime()
 	-- display the number of seconds
 	clockText.text = secondsLeft .. ""
 
+
 	if (secondsLeft == 0 ) then
 		--reset the number of seconds left 
 		secondsLeft = totalSeconds
 		lives = lives - 1
+		AskQuestion()
 		if (lives == 3) then
 			heart4.isVisible = false
 		elseif (lives == 2) then 
 			heart3.isVisible = false
 		elseif (lives == 1) then
 			heart2.isVisible = false
+		elseif (lives == 0) then
+			heart1.isVisble = false
 		end
 	end
 end
@@ -209,6 +231,7 @@ end
 -- function that calls the timer
 local function StartTimer()
 	--create a countdown timer that loops infinitely
+
 	countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0)
 end
 
@@ -264,8 +287,8 @@ heart4.x = display.contentWidth * 4 / 8
 heart4.y = display.contentHeight * 1 / 7
 
 -- add the clock text
-clockText = display.newText("", display.contentWidth*1/4, display.contentHeight*1/4, nil, 50)
-clockText.isVisible = false
+clockText = display.newText("" .. secondsLeft, display.contentWidth*1/8, display.contentHeight*1/7, nil, 100)
+clockText:setTextColor(1,0,1)
 
 --------------------------------------------------------------------------------------
 -- FUNCTION CALLS
@@ -273,4 +296,3 @@ clockText.isVisible = false
 
 -- call the function to ask the question
 AskQuestion()
-StartTimer()
