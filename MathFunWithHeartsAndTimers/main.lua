@@ -296,3 +296,5 @@ clockText:setTextColor(1,0,1)
 
 -- call the function to ask the question
 AskQuestion()
+StartTimer()
+UpdateTime()
